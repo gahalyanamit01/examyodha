@@ -1,6 +1,4 @@
+supabase
 requests
 beautifulsoup4
-lxml
-supabase
 python-dotenv
-playwright
