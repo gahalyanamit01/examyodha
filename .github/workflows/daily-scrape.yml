@@ -2,17 +2,26 @@ name: Daily Exam Scrape
 on:
   workflow_dispatch:
   schedule:
-        - cron: '30 0 * * *'  # 6 AM IST daily
+    - cron: '30 0 * * *'
+
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-            - run: pip install -r requirements.txt
-            - run: python main.py
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run scraper
+        run: python main.py
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
