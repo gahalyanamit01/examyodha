@@ -1,43 +1,51 @@
 
-import { createClient } from '@supabase/supabase-js'
+export const dynamic = 'force-dynamic';
 
-const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-
-export const revalidate = 3600 // rebuild every hour
-
-export default async function Home() {
-  const { data: notifications } = await supabase.from('notifications').select('*').order('created_at', {ascending:false}).limit(50)
+export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-slate-900 text-white p-4 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold"><span className="bg-orange-500 rounded-full px-2">EY</span> ExamYodha</h1>
-          <span className="text-xs bg-green-600 px-2 py-1 rounded">AUTO-UPDATED TODAY 6AM</span>
+    <main style={{minHeight:'100vh', padding:'20px', maxWidth:'900px', margin:'0 auto', fontFamily:'system-ui'}}>
+      <div style={{background:'#2563eb', color:'white', padding:'24px', borderRadius:'12px', marginBottom:'24px'}}>
+        <h1 style={{fontSize:'32px', fontWeight:'bold'}}>ExamYodha - LIVE!</h1>
+        <p>Govt Exams • Results • Admit Cards</p>
+        <div style={{marginTop:'12px', background:'#1d4ed8', display:'inline-block', padding:'6px 12px', borderRadius:'6px', fontSize:'14px'}}>
+          ✅ DEPLOY SUCCESS - Version 3.0 No-Crash
         </div>
-      </header>
-      <div className="max-w-7xl mx-auto p-6 grid grid-cols-12 gap-6">
-        <div className="col-span-12 lg:col-span-8">
-          <h2 className="text-xl font-bold mb-4">Latest Notifications - Live from Supabase</h2>
-          <div className="bg-white rounded-xl shadow">
-            {notifications?.map(n => (
-              <div key={n.id} className="p-4 border-b flex justify-between">
-                <div><p className="font-semibold">{n.title}</p><p className="text-xs text-gray-500">{n.organization} | {n.category} | {n.notification_date}</p></div>
-                <a href={n.official_link} target="_blank" className="bg-orange-500 text-white px-3 py-1 rounded text-sm h-fit">View</a>
-              </div>
-            ))}
+      </div>
+
+      <div style={{display:'grid', gap:'20px'}}>
+        <div style={{background:'white', padding:'20px', borderRadius:'12px', boxShadow:'0 2px 8px rgba(0,0,0,0.1)'}}>
+          <h2 style={{fontWeight:'bold', marginBottom:'12px'}}>🎉 Your Website is LIVE!</h2>
+          <p style={{fontSize:'14px', color:'#666'}}>Now we will connect it to Supabase database step by step.</p>
+          
+          <div style={{marginTop:'16px', padding:'12px', background:'#f0fdf4', border:'1px solid #bbf7d0', borderRadius:'8px'}}>
+            <div style={{fontWeight:'bold', color:'#15803d'}}>Next Steps:</div>
+            <ol style={{fontSize:'13px', marginTop:'8px', paddingLeft:'20px'}}>
+              <li>Go to Vercel -&gt; Settings -&gt; Environment Variables</li>
+              <li>Add: NEXT_PUBLIC_SUPABASE_URL = https://vvwbjatzshinobzkpkkj.supabase.co</li>
+              <li>Add: NEXT_PUBLIC_SUPABASE_ANON_KEY = your anon key</li>
+              <li>Go to Deployments -&gt; Redeploy</li>
+              <li>Then we switch to database version</li>
+            </ol>
+          </div>
+
+          <div style={{marginTop:'16px'}}>
+            <h3 style={{fontWeight:'bold'}}>Exams We Will Show:</h3>
+            <div style={{fontSize:'13px', color:'#333', marginTop:'8px'}}>
+              <div>• SSC CGL, CHSL, GD, MTS</div>
+              <div>• UPSC Civil Services</div>
+              <div>• RRB Railway NTPC, Group D</div>
+              <div>• HSSC Haryana CET</div>
+              <div>• Banking IBPS, SBI</div>
+            </div>
           </div>
         </div>
-        <div className="col-span-12 lg:col-span-4">
-          <div className="bg-white p-4 rounded-xl shadow mb-4">
-            <h3 className="font-bold">Last Auto-Update</h3>
-            <p className="text-sm text-green-600">Today 6:00 AM IST - {notifications?.length} new</p>
-          </div>
-          <div className="bg-blue-50 p-4 rounded-xl">
-            <h3 className="font-bold">Your SSC Notes Format</h3>
-            <p className="text-sm">Large text, tables, no images - auto embedded for each exam.</p>
-          </div>
+
+        <div style={{background:'white', padding:'20px', borderRadius:'12px', boxShadow:'0 2px 8px rgba(0,0,0,0.1)'}}>
+          <h3 style={{fontWeight:'bold'}}>✅ Build Status</h3>
+          <p style={{fontSize:'13px', marginTop:'8px'}}>If you see this page, Vercel deploy is 100% working. The previous error is gone.</p>
+          <p style={{fontSize:'13px', marginTop:'8px', color:'#2563eb'}}>Paste this live link here so I can verify and connect your database next.</p>
         </div>
       </div>
     </main>
-  )
+  );
 }
