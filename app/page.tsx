@@ -7,10 +7,8 @@ async function getData(){
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   const supabase = createClient(url, key);
   const { data: exams } = await supabase.from('exams').select('*').order('name');
-  const { data: notifications } = await supabase.from('notifications').select('*').order('created_at', {ascending:false}).limit(50);
+  const { data: notifications } = await supabase.from('notifications').select('*').order('notification_date', {ascending:false}).limit(50);
   return { exams: exams||[], notifications: notifications||[] };
-}
-
 export default async function Home(){
   const { exams, notifications } = await getData();
   return (
