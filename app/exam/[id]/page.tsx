@@ -6,8 +6,18 @@ export const dynamic = 'force-dynamic';
 async function getExamData(id: string){
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
   const { data: exam } = await supabase.from('exams').select('*').eq('id', id).single();
-  const { data: all } = await supabase.from('notifications').select('*').eq('exam_id', id).order('notification_date', {ascending:false}).limit(100);
-  return { exam, all: all||[] };
+  if(!exam) return { exam: null, all: [] };
+}
+  // Fetch by exam_id OR by title contains exam name (fallback)
+  const keyword = exam.name.split(' ')[0]; // SSC, BPSC, IBPS...
+  const { data: byId } = await supabase.from('notifications').select('*').eq('exam_id', id).order('notification_date', {ascending:false}).limit(100);
+  const { data: byTitle } = await supabase.from('notifications').select('*').ilike('title', `%${keyword}%`).order('notification_date', {ascending:false}).limit(100);
+
+  // Merge both and deduplicate by id
+  const merged = [...(byId||[]),...(byTitle||[])];
+  const unique = Array.from(new Map(merged.map((m:any)=>[m.id, m])).values());
+
+  return { exam, all: unique };
 }
 
 export default async function ExamPage({ params }: { params: { id: string } }){
