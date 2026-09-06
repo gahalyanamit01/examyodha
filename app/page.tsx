@@ -30,12 +30,12 @@ export default async function Home(){
           <div className="bg-white rounded-2xl shadow-sm border p-5 sticky top-6">
             <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2">📚 Exams ({exams.length})</h2>
             <div className="space-y-2 max-h-[70vh] overflow-auto pr-1">
-              {exams.map((e:any)=>(
-                <div key={e.id} className="p-3 rounded-xl border hover:border-blue-300 hover:bg-blue-50 transition cursor-pointer">
-                  <div className="font-semibold text-sm text-slate-800">{e.name}</div>
-                  <div className="text-xs text-slate-500 mt-1 flex gap-2"><span className="bg-slate-100 px-2 py-0.5 rounded-full">{e.short_name}</span><span>{e.category}</span></div>
-                </div>
-              ))}
+             {exams.map((e) => (
+  <div key={e.id} className="p-4 border rounded-xl">
+    <div className="font-bold">{e.name}</div>
+    <div className="text-xs text-gray-500">{e.category}</div>
+  </div>
+))}
             </div>
           </div>
         </aside>
@@ -59,20 +59,18 @@ export default async function Home(){
               </div>
             ) : (
               <div className="space-y-3">
-                {notifications.map((n:any)=>(
-                  <a key={n.id} href={n.source_url||'#'} target="_blank" className="block border rounded-xl p-4 hover:shadow-md hover:border-blue-300 transition group">
-                    <div className="flex gap-3">
-                      <div className="text-xs font-bold px-2 py-1 rounded-full bg-blue-50 text-blue-700 border h-fit">{n.notification_type}</div>
-                      <div className="flex-1">
-                        <div className="font-semibold text-slate-800 group-hover:text-blue-600 text-sm leading-tight">{n.title}</div>
-                        <div className="text-xs text-slate-500 mt-1.5 flex gap-3">
-                          <span>{n.published_date}</span>
-                          {n.source_url && <span className="text-blue-600 underline">Official Link ↗</span>}
-                        </div>
-                      </div>
-                    </div>
-                  </a>
-                ))}
+               {notifications.map((n) => (
+  <a 
+    key={n.id} 
+    href={n.pdf_url || n.official_link || '#'} 
+    target="_blank" 
+    rel="noopener noreferrer"
+    className="block p-4 border rounded-xl hover:bg-blue-50 transition"
+  >
+    <div className="font-medium">{n.title}</div>
+    <div className="text-xs text-gray-500">{n.organization} • {n.notification_date}</div>
+  </a>
+))}
               </div>
             )}
           </div>
