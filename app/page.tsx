@@ -75,7 +75,7 @@ export default function Home(){
             <h2 className="font-bold mb-4">📚 Exams ({filteredExams.length}/{exams.length})</h2>
             <div className="space-y-2 max-h- overflow-auto pr-1">
               {filteredExams.map((e:any)=>(
-                <a key={e.id} href={e.official_website||'#'} target="_blank" className="block p-4 border rounded-xl hover:bg-indigo-50 hover:border-indigo-300 transition">
+                <a key={e.id} href={`/exam/${e.id}`} className="block p-4 border rounded-xl hover:bg-indigo-50 hover:border-indigo-300 transition">
                   <div className="font-bold text-sm">{e.name}</div>
                   <div className="text-xs text-gray-500 flex justify-between mt-1">
                     <span>{e.category}</span>
