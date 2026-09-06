@@ -1,7 +1,8 @@
-
 import { createClient } from '@supabase/supabase-js';
+
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+
 async function getData(){
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -9,6 +10,8 @@ async function getData(){
   const { data: exams } = await supabase.from('exams').select('*').order('name');
   const { data: notifications } = await supabase.from('notifications').select('*').order('notification_date', {ascending:false}).limit(50);
   return { exams: exams||[], notifications: notifications||[] };
+}
+
 export default async function Home(){
   const { exams, notifications } = await getData();
   return (
@@ -29,13 +32,13 @@ export default async function Home(){
         <aside className="md:col-span-4">
           <div className="bg-white rounded-2xl shadow-sm border p-5 sticky top-6">
             <h2 className="font-bold text-slate-800 mb-4 flex items-center gap-2">📚 Exams ({exams.length})</h2>
-            <div className="space-y-2 max-h-[70vh] overflow-auto pr-1">
-             {exams.map((e) => (
-  <div key={e.id} className="p-4 border rounded-xl">
-    <div className="font-bold">{e.name}</div>
-    <div className="text-xs text-gray-500">{e.category}</div>
-  </div>
-))}
+            <div className="space-y-2 max-h- overflow-auto pr-1">
+             {exams.map((e: any) => (
+              <div key={e.id} className="p-4 border rounded-xl">
+                <div className="font-bold">{e.name}</div>
+                <div className="text-xs text-gray-500">{e.category}</div>
+              </div>
+            ))}
             </div>
           </div>
         </aside>
@@ -47,7 +50,7 @@ export default async function Home(){
               <span className="text-xs bg-green-50 text-green-700 border border-green-200 px-2.5 py-1 rounded-full">Auto-scraped daily 6 AM</span>
             </div>
 
-            {notifications.length===0 ? (
+            {notifications.length===0? (
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
                 <div className="text-3xl mb-2">🤖</div>
                 <div className="font-bold text-amber-800">Scraper Ready to Run!</div>
@@ -59,18 +62,18 @@ export default async function Home(){
               </div>
             ) : (
               <div className="space-y-3">
-               {notifications.map((n) => (
-  <a 
-    key={n.id} 
-    href={n.pdf_url || n.official_link || '#'} 
-    target="_blank" 
-    rel="noopener noreferrer"
-    className="block p-4 border rounded-xl hover:bg-blue-50 transition"
-  >
-    <div className="font-medium">{n.title}</div>
-    <div className="text-xs text-gray-500">{n.organization} • {n.notification_date}</div>
-  </a>
-))}
+               {notifications.map((n: any) => (
+                <a
+                  key={n.id}
+                  href={n.pdf_url || n.official_link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block p-4 border rounded-xl hover:bg-blue-50 transition"
+                >
+                  <div className="font-medium">{n.title}</div>
+                  <div className="text-xs text-gray-500">{n.organization} • {n.notification_date}</div>
+                </a>
+              ))}
               </div>
             )}
           </div>
