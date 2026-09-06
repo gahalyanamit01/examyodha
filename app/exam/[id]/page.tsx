@@ -7,7 +7,7 @@ async function getExamData(id: string){
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
   const { data: exam } = await supabase.from('exams').select('*').eq('id', id).single();
   if(!exam) return { exam: null, all: [] };
-}
+
   // Fetch by exam_id OR by title contains exam name (fallback)
   const keyword = exam.name.split(' ')[0]; // SSC, BPSC, IBPS...
   const { data: byId } = await supabase.from('notifications').select('*').eq('exam_id', id).order('notification_date', {ascending:false}).limit(100);
@@ -24,7 +24,7 @@ export default async function ExamPage({ params }: { params: { id: string } }){
   const { exam, all } = await getExamData(params.id);
   if(!exam) return <div className="p-10">Exam not found</div>;
 
-  const notifications = all.filter((n:any)=> n.type==='notification' || !n.type);
+  const notifications = all.filter((n:any)=> n.type==='notification' ||!n.type);
   const results = all.filter((n:any)=> n.type==='result');
   const admitCards = all.filter((n:any)=> n.type==='admit card');
 
